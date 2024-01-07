@@ -1,27 +1,31 @@
 import { useState, useEffect } from "react";
 
-const INTERVAL_DURATION = 1000;
+const INTERVAL_DURATION = 100;
 
-export default function QuestionTimer({ timeout, onTimeout }) {
+export default function QuestionTimer({ timeout, onTimeout, activeQuestionIndex }) {
     const [ remainingTime, setRemainingTime] = useState(timeout);
 
     // console.log('timeout', timeout, 'remainingTime', remainingTime);
 
     useEffect(() => {
         console.log('SET TIMEOUT');
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             onTimeout();
             setRemainingTime(timeout);
         }, timeout);
-    }, [timeout, onTimeout]);
+        
+        return () => (clearTimeout(timer));
+    }, [timeout, onTimeout, activeQuestionIndex]);
 
 
     useEffect(() => {
         console.log('SET INTERVAL');
-        setInterval(() => {
-            // console.log('setInterval', remainingTime);
+        const interval = setInterval(() => {
+            console.log('setInterval', remainingTime);
             setRemainingTime(prevRemainingTime => prevRemainingTime - INTERVAL_DURATION)
         }, INTERVAL_DURATION);
+
+        return () => {clearInterval(interval)};
     }, []);
         
     
