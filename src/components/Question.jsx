@@ -22,11 +22,20 @@ export default function Question({
     if (answer.isCorrect !== null) {
         timer = 2000;
     }
+
     function handleSelectAnswer(answer) {
+        console.log(answer);
         setAnswer({
             selectedAnswer: answer,
             isCorrect: null
         });
+        
+        console.log(
+            'handleSelectAnswer', 
+            'QUESTIONS[index].answers[0]', QUESTIONS[index].answers[0], 
+            'answer', answer,
+            'test result', QUESTIONS[index].answers[0] === answer
+            );
 
         setTimeout(() => {
             setAnswer({
@@ -44,7 +53,7 @@ export default function Question({
     let answerState = '';
 
     if (answer.selectedAnswer && answer.isCorrect !== null) {
-        answerState = answerState.isCorrect ? 'correct' : 'wrong';
+        answerState = answer.isCorrect ? 'correct' : 'wrong';
     } else if (answer.selectedAnswer) {
         answerState = 'answered';
     }
